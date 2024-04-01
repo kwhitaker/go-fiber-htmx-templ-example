@@ -5,7 +5,7 @@ This is a to-do app I made to play with the following goodies:
 - [HTMX](https://htmx.org/)
 - [Templ](https://templ.guide)
 - [AlpineJS](https://alpinejs.dev/)
-- [Bun](bun.sh)
+- [Bun](https://bun.sh)
 
 ### Why?
 Because I wanted to 🤷. After a decade of doing things with React and Typescript, I wanted to poke around with Go and HTMX.
