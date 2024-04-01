@@ -1,0 +1,75 @@
+package layout
+
+templ Base(children ...templ.Component) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>Sample To-Dos</title>
+			<link href="/css/tailwind.css" rel="stylesheet"/>
+		</head>
+		<body class="m-0 p-0 w-screen h-screen overflow-hidden">
+			<div class="container mx-auto flex justify-center items-center h-full">
+				<label class="fixed top-3 right-3 flex cursor-pointer gap-2">
+					<i data-feather="sun"></i>
+					<input
+						type="checkbox"
+						id="theme"
+						name="theme"
+						value="synthwave"
+						class="toggle theme-controller"
+						x-data
+						x-on:change="$store.theme.toggle()"
+						x-data
+						x-bind:checked="$store.theme.theme === 'synthwave'"
+					/>
+					<i data-feather="moon"></i>
+				</label>
+				for _, child := range children {
+					@child
+				}
+			</div>
+			<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+			<script src="https://unpkg.com/feather-icons"></script>
+			<script src="//unpkg.com/alpinejs" defer></script>
+			<script>
+				feather.replace();
+
+				// Re-run feather icons after htmx swaps
+				htmx.on("htmx:afterSwap", function(event) {
+					feather.replace();
+				});
+
+				document.addEventListener('alpine:init', () => {
+					Alpine.store('theme', {
+						init() {
+							let stored = localStorage.getItem('theme');
+
+							if (!stored) {
+								stored = 'cupcake'
+								localStorage.setItem('theme', stored);
+							}
+
+							if (stored === 'cupcake') {
+								this.theme = 'cupcake';
+								document.documentElement.classList.remove('dark');
+							} else {
+								this.theme = 'synthwave';
+								document.documentElement.classList.add('dark');
+							}
+						},
+
+						theme: 'cupcake',
+
+						toggle() {
+							this.theme = this.theme === 'synthwave' ? 'cupcake' : 'synthwave';
+							document.documentElement.classList.toggle('dark');
+							localStorage.setItem('theme', this.theme);
+						}
+					})
+				})
+			</script>
+		</body>
+	</html>
+}

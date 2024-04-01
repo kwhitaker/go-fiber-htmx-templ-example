@@ -1,0 +1,14 @@
+package partial
+
+templ ServerError(e error) {
+	<div
+		class="toast toast-top toast-start"
+		x-data="{show: true}"
+		x-show="show"
+		x-init="setTimeout(() => show = false, 5000)"
+	>
+		<div class="alert alert-error">
+			{ e.Error() }
+		</div>
+	</div>
+}

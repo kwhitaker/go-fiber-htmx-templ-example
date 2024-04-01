@@ -1,0 +1,18 @@
+{
+  "name": "go-htmx-templ",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.12",
+    "@types/bun": "latest",
+    "daisyui": "latest",
+    "tailwindcss": "^3.4.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "tailwindcss build -o static/css/tailwind.css --minify",
+    "watch": "tailwindcss build -o static/css/tailwind.css --watch"
+  }
+}

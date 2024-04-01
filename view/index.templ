@@ -1,0 +1,18 @@
+package view
+
+import (
+	"github.com/kwhitaker/go-htmx-templ/view/partial"
+	"github.com/kwhitaker/go-htmx-templ/models"
+)
+
+templ Index(todos []models.Todo) {
+	<div class="artboard artboard-demo phone-3 justify-start p-4">
+		<h1 class="text-center text-3xl font-bold">
+			To-Dos
+		</h1>
+		<div class="flex flex-col justify-center mt-4">
+			@partial.TodoForm(nil)
+			@partial.Todos(todos)
+		</div>
+	</div>
+}

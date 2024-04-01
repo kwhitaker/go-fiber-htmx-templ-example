@@ -1,0 +1,34 @@
+package partial
+
+templ TodoForm(e error) {
+	<form
+		id="add-todo"
+		action="/todos"
+		hx-post="/todos"
+		class="flex flex-row space-x-3 justify-between items-center p-4"
+		hx-swap="outerHTML"
+	>
+		<input
+			type="text"
+			name="title"
+			id="new-todo-title"
+			class="input input-bordered w-full max-w-sm"
+			required
+			minlength="3"
+			autofocus
+			autocomplete="off"
+			placeholder="Enter new to-do..."
+		/>
+		<div class="tooltip" data-tip="Add new to-do">
+			<button
+				type="submit"
+				class="btn btn-secondary"
+			>
+				<i data-feather="plus" class="w-4 h-4"></i>
+			</button>
+		</div>
+	</form>
+	if e != nil {
+		@ServerError(e)
+	}
+}

@@ -1,0 +1,70 @@
+package partial
+
+import (
+	"fmt"
+	"github.com/kwhitaker/go-htmx-templ/models"
+)
+
+templ TodoItem(todo *models.Todo, updated bool, e error) {
+	<li id={ fmt.Sprintf("todo-%d", todo.ID) } class="mb-3" data-testid={ fmt.Sprintf("todo-%d", todo.ID) }>
+		<form
+			action={ templ.URL(fmt.Sprintf("/todos/%d", todo.ID)) }
+			hx-put={ fmt.Sprintf("/todos/%d", todo.ID) }
+			hx-target={ fmt.Sprintf("#todo-%d", todo.ID) }
+			hx-swap="outerHTML"
+			class="flex items-center space-x-2"
+		>
+			<input
+				type="checkbox"
+				name="completed"
+				id={ fmt.Sprintf("todo-%d-completed", todo.ID) }
+				hx-put={ fmt.Sprintf("/todos/%d", todo.ID) }
+				hx-trigger="click"
+				checked?={ todo.Completed }
+				class="checkbox"
+				title="Toggle Completed"
+				data-testid={ fmt.Sprintf("todo-%d-toggle", todo.ID) }
+			/>
+			<input
+				type="text"
+				id={ fmt.Sprintf("todo-%d-title", todo.ID) }
+				name="title"
+				value={ todo.Title }
+				hx-put={ fmt.Sprintf("/todos/%d", todo.ID) }
+				hx-trigger="keyup[enter], blur"
+				required
+				minlength="2"
+				class="input input-bordered w-full max-w-sm"
+				data-testid={ fmt.Sprintf("todo-%d-input", todo.ID) }
+			/>
+			<div class="tooltip" data-tip="Delete">
+				<button
+					type="button"
+					hx-delete={ fmt.Sprintf("/todos/%d", todo.ID) }
+					hx-target={ fmt.Sprintf("#todo-%d", todo.ID) }
+					class="btn btn-error"
+					data-testid={ fmt.Sprintf("todo-%d-delete", todo.ID) }
+				>
+					<i data-feather="trash-2" class="w-4 h-4"></i>
+				</button>
+			</div>
+		</form>
+		if e != nil {
+			@ServerError(e)
+		}
+		if updated {
+			<div
+				id={ fmt.Sprintf("toast-%d", todo.ID) }
+				class="toast toast-start toast-top"
+				x-data="{show: true}"
+				x-show="show"
+				x-init="setTimeout(() => show = false, 3000)"
+				data-testid={ fmt.Sprintf("todo-%d-toast", todo.ID) }
+			>
+				<div class="alert alert-success">
+					To-Do updated
+				</div>
+			</div>
+		}
+	</li>
+}

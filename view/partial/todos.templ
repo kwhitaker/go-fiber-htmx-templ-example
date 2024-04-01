@@ -1,0 +1,21 @@
+package partial
+
+import (
+	"github.com/kwhitaker/go-htmx-templ/models"
+)
+
+templ Todos(todos []models.Todo) {
+	<div hx-trigger="refresh-todos from:body" hx-get="/todos-list">
+		if len(todos) == 0 {
+			<p class="alert">
+				No todos found.
+			</p>
+		} else {
+			<ul id="todos" class="px-4 my-4">
+				for _, todo := range todos {
+					@TodoItem(&todo, false, nil)
+				}
+			</ul>
+		}
+	</div>
+}
